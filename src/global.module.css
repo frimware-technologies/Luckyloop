@@ -1,0 +1,8 @@
+.input {
+    height: 52px;
+    border-radius: 10px;
+    &:focus-within {
+        outline: 2px solid #1098ad;
+        border-color: transparent;
+    }
+}
