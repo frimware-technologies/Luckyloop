@@ -72,12 +72,12 @@ export const Login = () => {
         />
 
         <Anchor
-          href="https://mantine.dev/" // TODO: LINK TO FORGET PIN ROUTE
+          href="/forget-pin" // TODO: LINK TO FORGET PIN ROUTE
           underline="hover"
           display={"block"}
           ta={"end"}
         >
-          Forgot pin?
+          Forgot MPIN?
         </Anchor>
         <SupportCard></SupportCard>
         <Box mt={"auto"}>
