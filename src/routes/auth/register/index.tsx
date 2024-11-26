@@ -11,6 +11,7 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 // import { z } from "zod";
 import { SupportCard } from "../../../components/ui/SupportCard";
+import { username_ic, lock_ic, call_ic } from "../../../assets/icons";
 
 const formSchema = z.object({
   username: z
@@ -67,6 +68,7 @@ export const Register = () => {
           {...form.getInputProps("username")}
           label="Username"
           placeholder="Enter User Name"
+          leftSection={username_ic}
           maxLength={10}
           mb={14}
         />
@@ -77,6 +79,7 @@ export const Register = () => {
           label="Mobile Number"
           placeholder="Enter Mobile Number"
           maxLength={10}
+          leftSection={call_ic}
           mb={14}
           inputMode="numeric"
         />
@@ -88,6 +91,7 @@ export const Register = () => {
           size="md"
           maxLength={4}
           mb={14}
+          leftSection={lock_ic}
           inputMode="numeric"
         />
         <SupportCard></SupportCard>

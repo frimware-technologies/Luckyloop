@@ -10,6 +10,7 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { SupportCard } from "../../../components/ui/SupportCard";
+import { lock_ic, call_ic } from "../../../assets/icons";
 
 const formSchema = z.object({
   mobileNum: z
@@ -54,6 +55,7 @@ export const Login = () => {
           size="md"
           key={form.key("mobileNum")}
           {...form.getInputProps("mobileNum")}
+          leftSection={call_ic}
           label="Mobile Number"
           placeholder="Enter Mobile Number"
           maxLength={10}
@@ -66,6 +68,7 @@ export const Login = () => {
           {...form.getInputProps("mpin")}
           placeholder="Enter MPIN"
           size="md"
+          leftSection={lock_ic}
           maxLength={4}
           mb={14}
           inputMode="numeric"

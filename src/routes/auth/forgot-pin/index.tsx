@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
+import { call_ic } from "../../../assets/icons";
 
 const formSchema = z.object({
   mobileNum: z
@@ -64,6 +65,7 @@ export const ForgetPin = () => {
             key={form.key("mobileNum")}
             {...form.getInputProps("mobileNum")} //TODO: ADD LEFT SECTION
             label="Mobile Number"
+            leftSection={call_ic}
             placeholder="Enter Mobile Number"
             maxLength={10}
             mb={32}
