@@ -1,14 +1,14 @@
-import { Login } from "./routes/auth/login";
-import { Register } from "./routes/auth/register";
-import { ForgetPin } from "./routes/auth/forgot-pin";
 import { Routes, Route } from "react-router";
+import { PublicRoutes } from "./routes/PublicRoutes";
+import AuthenticatedRoutes from "./routes/PrivateRoutes";
 
 export default function App() {
+  const isAuthenticated = true;
+
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forget-pin" element={<ForgetPin />} />
+      {!isAuthenticated && <Route path="/*" element={<PublicRoutes />} />}
+      {isAuthenticated && <Route path="/*" element={<AuthenticatedRoutes />} />}
     </Routes>
   );
 }
