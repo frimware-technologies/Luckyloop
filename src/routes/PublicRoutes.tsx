@@ -7,7 +7,7 @@ export const PublicRoutes = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/forgot-pin" element={<ForgetPin />} />
+      <Route path="/forget-pin" element={<ForgetPin />} />
       <Route path="*" element={<Login />} />{" "}
       {/* Redirect to login by default */}
     </Routes>
