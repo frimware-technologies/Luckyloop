@@ -3,6 +3,7 @@ import { Flex, Drawer, Button, Center, Text, Image } from "@mantine/core";
 import { menu_ic } from "../../assets/icons";
 import addWallet from "../../assets/images/quick-feature/add-wallet.png";
 import { Menu } from "../Menu";
+import { Link } from "react-router";
 
 export const Header = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -19,19 +20,21 @@ export const Header = () => {
         <Button onClick={open} bg={"transparent"} p={0}>
           {menu_ic}
         </Button>
-        <Center>
-          <Image
-            src={addWallet}
-            alt="add money"
-            w={36}
-            h={36} // other wise image not rendering in firefox
-          />
-          <Text px={8} c={"white"} ta={"center"}>
-            {5 /*amount */}
-          </Text>
-        </Center>
+        <Link to="/add-money" style={{ textDecoration: "none" }}>
+          <Center>
+            <Image
+              src={addWallet}
+              alt="add money"
+              w={36}
+              h={36} // other wise image not rendering in firefox
+            />
+            <Text px={8} c={"white"} ta={"center"}>
+              {5 /*amount */}
+            </Text>
+          </Center>
+        </Link>
       </Flex>
-      <Drawer opened={opened} onClose={close} title="Menu" size={"80%"}>
+      <Drawer opened={opened} onClose={close} size={"80%"}>
         <Menu />
       </Drawer>
     </>
