@@ -11,11 +11,15 @@
     "android": "tauri android dev --host"
   },
   "dependencies": {
-    "@mantine/core": "^7.14.1",
+    "@mantine/carousel": "^7.14.2",
+    "@mantine/core": "^7.14.2",
     "@mantine/form": "^7.14.2",
-    "@mantine/hooks": "^7.14.1",
+    "@mantine/hooks": "^7.14.2",
+    "@mantine/notifications": "^7.14.2",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-shell": "^2",
+    "embla-carousel-autoplay": "^7.1.0",
+    "embla-carousel-react": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^7.0.1",

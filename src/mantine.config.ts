@@ -23,6 +23,11 @@ export const theme: MantineThemeOverride = {
         input: classes.input,
       },
     }),
+    NavLink: {
+      defaultProps: {
+        h: "56",
+      },
+    },
 
     NumberInput: {
       defaultProps: {
