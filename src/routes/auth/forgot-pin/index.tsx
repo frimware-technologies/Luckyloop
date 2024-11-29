@@ -10,6 +10,7 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { call_ic } from "../../../assets/icons";
+import { SharedHeader } from "../../../components/ui/SharedHeader";
 
 const formSchema = z.object({
   mobileNum: z
@@ -31,26 +32,8 @@ export const ForgetPin = () => {
   });
   return (
     <>
-      <Flex h={64} gap={30} align={"center"} px={14} bg={"cyan"}>
-        <a href="/">
-          <svg
-            viewBox="0 0 24 24"
-            id="bxs-chevron-left"
-            width={36}
-            height={36}
-            style={{ paddingTop: 8 }}
-          >
-            <path
-              fill="white"
-              d="M13.939 4.939L6.879 12l7.06 7.061l2.122-2.122L11.121 12l4.94-4.939z"
-            ></path>
-          </svg>
-        </a>
-        <Text c="white" size="24">
-          Forget Pin?
-        </Text>
-      </Flex>
-      <Flex px={18} pt={42} direction={"column"}>
+      <SharedHeader title="Forgot Pin?"></SharedHeader>
+      <Flex bg={"#F8F9FA"} px={18} pt={42} direction={"column"}>
         <Title mb={14}>Set new MPin</Title>
         <Text size="md" mb={14}>
           Please enter your 10 digit mobile number to get otp.

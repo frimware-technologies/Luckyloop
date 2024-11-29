@@ -51,7 +51,7 @@ export const Register = () => {
     },
   });
   return (
-    <Flex pt={42} px={18} h={"100vh"} direction={"column"}>
+    <Flex pt={42} bg={"#F8F9FA"} px={18} h={"100vh"} direction={"column"}>
       <Title mb={14}>Register</Title>
       <Text size="md" mb={14}>
         Embark on a new journey. Create your account and explore.

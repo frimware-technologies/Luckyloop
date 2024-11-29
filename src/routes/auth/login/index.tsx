@@ -40,7 +40,7 @@ export const Login = () => {
     },
   });
   return (
-    <Flex pt={42} px={18} h={"100vh"} direction={"column"}>
+    <Flex pt={42} bg={"#F8F9FA"} px={18} h={"100vh"} direction={"column"}>
       <Title mb={14}>Login</Title>
       <Text size="md" mb={14}>
         Unlock your potential. Log in to explore all the features.
