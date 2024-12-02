@@ -7,13 +7,15 @@ import {
   Anchor,
   Flex,
   TextInput,
+  Drawer,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
-// import { z } from "zod";
-import { SupportCard } from "../../../components/ui/SupportCard";
-import { username_ic, lock_ic, call_ic } from "../../../assets/icons";
+import { SupportCard } from "@/components/ui/SupportCard";
+import { username_ic, lock_ic, call_ic } from "@/assets/icons";
+import { useState } from "react";
+import { VerifyOtp } from "../../../components/DrawerContent/VerifyOtp";
 
-const formSchema = z.object({
+const RegisterSchema = z.object({
   username: z
     .string()
     .refine((value) => value.length >= 3, {
@@ -25,7 +27,7 @@ const formSchema = z.object({
 
   mobileNum: z
     .string()
-    .refine((value) => /^[1-9][0-9]{9}$/.test(value), {
+    .refine((value) => /^[6-9]\d{9}$/.test(value), {
       message: "Please enter a valid 10-digit mobile number",
     })
     .refine((value) => value.trim().length > 0, {
@@ -40,16 +42,54 @@ const formSchema = z.object({
       message: "Please enter MPIN",
     }),
 });
+type FormSchemaType = z.infer<typeof RegisterSchema>;
 
 export const Register = () => {
+  const [openOtpForm, setOpenOtpForm] = useState(false);
+  const [number, setNumber] = useState("");
+  const [errMessage, setErrMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
-    validate: zodResolver(formSchema),
+    validate: zodResolver(RegisterSchema),
     initialValues: {
       username: "",
       mobileNum: "",
       mpin: "",
     },
   });
+
+  const handlRegistration = async (value: FormSchemaType) => {
+    setIsLoading(true);
+    // const backend_url = import.meta.env.BACKEND_URL;
+    const response = await fetch(`http://127.0.0.1:8787/auth/signup`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: value.username,
+        phone: value.mobileNum,
+        mpin: value.mpin,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data: {
+      error?: string;
+      success?: string;
+      userId?: string;
+    } = await response.json();
+
+    if (!response.ok) {
+      setIsLoading(false);
+      setErrMessage(`${data.error}`);
+      return;
+    }
+
+    setOpenOtpForm((prev) => !prev);
+    setNumber(value.mobileNum);
+    setIsLoading(false);
+    console.log(data);
+  };
+
   return (
     <Flex pt={42} bg={"#F8F9FA"} px={18} h={"100vh"} direction={"column"}>
       <Title mb={14}>Register</Title>
@@ -58,7 +98,7 @@ export const Register = () => {
       </Text>
       <form
         onSubmit={form.onSubmit((value) => {
-          console.log(value);
+          handlRegistration(value);
         })}
         style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
       >
@@ -95,8 +135,13 @@ export const Register = () => {
           inputMode="numeric"
         />
         <SupportCard></SupportCard>
+        {errMessage && (
+          <Text ta={"center"} c="red">
+            {errMessage}
+          </Text>
+        )}
         <Box mt={"auto"}>
-          <Button type="submit" w={"100%"}>
+          <Button type="submit" w={"100%"} loading={isLoading}>
             Sign Up
           </Button>
         </Box>
@@ -105,13 +150,16 @@ export const Register = () => {
       <Text size="md" my={14} ta={"center"}>
         Already Have an account?
         <Anchor
-          href="/" // TODO: LINK TO SIGN UP ROUTE
+          href="/login" // TODO: LINK TO SIGN UP ROUTE
           underline="hover"
           mx={4}
         >
           Log in
         </Anchor>
       </Text>
+      <Drawer opened={openOtpForm} onClose={() => setOpenOtpForm(false)}>
+        <VerifyOtp number={number}></VerifyOtp>
+      </Drawer>
     </Flex>
   );
 };

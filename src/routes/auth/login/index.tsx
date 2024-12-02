@@ -75,7 +75,7 @@ export const Login = () => {
         />
 
         <Anchor
-          href="/forget-pin" // TODO: LINK TO FORGET PIN ROUTE
+          href="/forgot-pin" // TODO: LINK TO FORGET PIN ROUTE
           underline="hover"
           display={"block"}
           ta={"end"}
