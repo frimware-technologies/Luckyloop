@@ -11,8 +11,10 @@ import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { SupportCard } from "../../../components/ui/SupportCard";
 import { lock_ic, call_ic } from "../../../assets/icons";
+import { useState } from "react";
+import { useAuth } from "@/App";
 
-const formSchema = z.object({
+const loginSchema = z.object({
   mobileNum: z
     .string()
     .refine((value) => /^[1-9][0-9]{9}$/.test(value), {
@@ -32,13 +34,42 @@ const formSchema = z.object({
 });
 
 export const Login = () => {
+  const { setIsAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
   const form = useForm({
-    validate: zodResolver(formSchema),
+    validate: zodResolver(loginSchema),
     initialValues: {
       mobileNum: "",
       mpin: "",
     },
   });
+  const BACKEND_URL = import.meta.env.BACKEND_URL || "http://127.0.0.1:8787";
+  type valueType = z.infer<typeof loginSchema>;
+  const handleLogin = async (value: valueType) => {
+    setIsLoading(true);
+    const response = await fetch(`${BACKEND_URL}/auth/login`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phone: value.mobileNum, mpin: value.mpin }),
+    });
+    const data: { error?: string } = await response.json();
+    if (!response.ok) {
+      setErrMessage(`${data.error}`);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
+    console.log(data);
+    localStorage.setItem("phone", value.mobileNum);
+    //redirect to home page
+
+    setIsAuthenticated(true);
+  };
+
   return (
     <Flex pt={42} bg={"#F8F9FA"} px={18} h={"100vh"} direction={"column"}>
       <Title mb={14}>Login</Title>
@@ -47,7 +78,7 @@ export const Login = () => {
       </Text>
       <form
         onSubmit={form.onSubmit((value) => {
-          console.log(value);
+          handleLogin(value);
         })}
         style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
       >
@@ -83,8 +114,13 @@ export const Login = () => {
           Forgot MPIN?
         </Anchor>
         <SupportCard></SupportCard>
+        {errMessage && (
+          <Text ta={"center"} c="red">
+            {errMessage}
+          </Text>
+        )}
         <Box mt={"auto"}>
-          <Button type="submit" w={"100%"}>
+          <Button type="submit" loading={isLoading} w={"100%"}>
             Sign In
           </Button>
         </Box>
