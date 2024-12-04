@@ -1,5 +1,5 @@
 import { lock_ic } from "@/assets/icons";
-import { Flex, Text, Title, TextInput, Button } from "@mantine/core";
+import { Flex, Text, Title, TextInput, Button, Center } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -42,13 +42,13 @@ export function VerifyOtp({ number }: { number: string }) {
       return;
     }
     console.log(data);
-    localStorage.setItem("phone", number);
-    setIsAuthenticated(true);
+    localStorage.setItem("token", number);
+    localStorage.setItem("token", `${data.token}`);
     setIsLoading(false);
+    setIsAuthenticated(true);
   }
 
   async function handleResendOtp() {
-    console.log("hello sonam .");
     setReTimer((prevState) => !prevState);
     const response = await fetch(`${BACKEND_URL}/auth/resend-otp`, {
       method: "POST",
@@ -58,8 +58,12 @@ export function VerifyOtp({ number }: { number: string }) {
       },
       body: JSON.stringify({ phone: number, type: "register" }),
     });
-    const data: { success: boolean; message?: string; error?: string } =
-      await response.json();
+    const data: {
+      success: boolean;
+      message?: string;
+      error?: string;
+      token?: string;
+    } = await response.json();
     if (!response.ok) {
       setErrMessage(`${data.error}`);
       return;
@@ -111,14 +115,21 @@ export function VerifyOtp({ number }: { number: string }) {
           Verify
         </Button>
       </form>
-      {timer ? (
-        <Text ta={"center"}>{`Resend OTP in
+      <Center h={80}>
+        {timer ? (
+          <Text ta={"center"}>{`Resend OTP in
             ${timer}`}</Text>
-      ) : (
-        <Button variant="light" size="md" onClick={handleResendOtp}>
-          Resend OTP
-        </Button>
-      )}
+        ) : (
+          <Button
+            c={"Black"}
+            bg={"transparent"}
+            size="md"
+            onClick={handleResendOtp}
+          >
+            Resend OTP
+          </Button>
+        )}
+      </Center>
       {errMessage && (
         <Text c={"red"} mt={120} ta={"center"}>
           {errMessage}
