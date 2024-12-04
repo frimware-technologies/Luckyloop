@@ -13,6 +13,9 @@ export const Header = () => {
       <Flex
         px={18}
         h={64}
+        pos={"sticky"}
+        top={0}
+        style={{ zIndex: 100 }}
         align={"center"}
         bg={"#48B0C0"}
         justify={"space-between"}
