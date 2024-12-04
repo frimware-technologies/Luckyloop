@@ -6,11 +6,15 @@ import {
   Anchor,
   Flex,
   TextInput,
+  Drawer,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { call_ic } from "../../../assets/icons";
 import { SharedHeader } from "../../../components/ui/SharedHeader";
+import { useState } from "react";
+import { MpinOtpVerification } from "@/components/DrawerContent/MpinOtpVerification";
+import { nextFetch } from "@/libs/nextFetch";
 
 const formSchema = z.object({
   mobileNum: z
@@ -23,24 +27,49 @@ const formSchema = z.object({
     }),
 });
 
-export const ForgetPin = () => {
+export const ForgotPin = () => {
+  const [openOtpForm, setOpenOtpForm] = useState(false);
+  const [number, setNumber] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
   const form = useForm({
     validate: zodResolver(formSchema),
     initialValues: {
       mobileNum: "",
     },
   });
+
+  const handleForgotPin = async (value: { mobileNum: string }) => {
+    setLoading(true);
+    const response = await nextFetch("/auth/forgot-mpin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phone: value.mobileNum }),
+    });
+    const data: { message?: string; error?: string } = await response.json();
+    if (!response.ok) {
+      setLoading(false);
+      return setErrMessage(`${data.error}`);
+    }
+    setLoading(false);
+    setNumber(value.mobileNum);
+    setErrMessage(`${data.message}`);
+    return setOpenOtpForm(true);
+  };
+
   return (
-    <>
+    <Flex direction={"column"} bg={"#F8F9FA"} h={"100vh"}>
       <SharedHeader title="Forgot Pin?"></SharedHeader>
-      <Flex bg={"#F8F9FA"} px={18} pt={42} direction={"column"}>
+      <Flex px={18} pt={42} direction={"column"}>
         <Title mb={14}>Set new MPin</Title>
         <Text size="md" mb={14}>
           Please enter your 10 digit mobile number to get otp.
         </Text>
         <form
           onSubmit={form.onSubmit((value) => {
-            console.log(value);
+            handleForgotPin(value);
           })}
         >
           <TextInput
@@ -55,7 +84,7 @@ export const ForgetPin = () => {
             inputMode="numeric"
           />
           <Box>
-            <Button type="submit" w={"100%"}>
+            <Button type="submit" loading={isLoading} w={"100%"}>
               Send OTP
             </Button>
           </Box>
@@ -71,7 +100,18 @@ export const ForgetPin = () => {
             Login
           </Anchor>
         </Text>
+        <Drawer
+          opened={openOtpForm}
+          onClose={() => setOpenOtpForm(false)}
+          lockScroll={true}
+        >
+          <MpinOtpVerification number={number} />
+        </Drawer>
+
+        <Text ta={"center"} c="red">
+          {errMessage}
+        </Text>
       </Flex>
-    </>
+    </Flex>
   );
 };
