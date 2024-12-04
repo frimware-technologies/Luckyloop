@@ -16,6 +16,7 @@ export function GameRate() {
         <Text
           ta={"center"}
           fz={22}
+          fw={800}
           w={"60%"}
           td={"underline"}
           variant="gradient"
