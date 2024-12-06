@@ -13,6 +13,15 @@ export const username_ic = (
   </svg>
 );
 
+export const back_ic = (
+  <svg viewBox="0 0 24 24" id="bxs-chevron-left" width={36} height={36}>
+    <path
+      fill="black"
+      d="M13.939 4.939L6.879 12l7.06 7.061l2.122-2.122L11.121 12l4.94-4.939z"
+    ></path>
+  </svg>
+);
+
 export const lock_ic = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
