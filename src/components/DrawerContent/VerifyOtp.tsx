@@ -42,7 +42,7 @@ export function VerifyOtp({ number }: { number: string }) {
       return;
     }
     console.log(data);
-    localStorage.setItem("token", number);
+    localStorage.setItem("phone", number);
     localStorage.setItem("token", `${data.token}`);
     setIsLoading(false);
     setIsAuthenticated(true);
