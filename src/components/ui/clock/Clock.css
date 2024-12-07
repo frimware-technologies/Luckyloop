@@ -1,0 +1,43 @@
+#clock {
+    width: 40px; /* Adjust clock size */
+    max-width: 90vw;
+    height: 40px; /* Adjust clock size */
+    max-height: 90vh;
+    padding: 2px; /* Proportionally reduce padding */
+    border: 2px solid #e0e1dd; /* Adjust border thickness */
+    border-radius: 50%; /* Keep the circular shape */
+}
+
+#clock-section {
+    width: 100%;
+    height: 100%;
+    transform: translateY(-1px); /* Proportionally reduce offset */
+}
+
+#clock-section span:nth-child(1) {
+    width: 50%; /* Proportional width */
+    height: 1px; /* Adjust hand thickness */
+    background: #e63946; /* Red for seconds hand */
+}
+
+#clock-section span:nth-child(2) {
+    left: 5%;
+    width: 45%; /* Proportional width */
+    height: 1.5px; /* Slightly thicker for minute hand */
+}
+
+#clock-section span:nth-child(3) {
+    left: 10%;
+    width: 40%; /* Proportional width */
+    height: 2px; /* Thickest for hour hand */
+}
+
+.hands {
+    position: absolute;
+    top: 50%;
+    background: #e0e1dd;
+    transform: rotate(90deg);
+    transform-origin: 100%;
+    transition: all 0.05s;
+    transition-timing-function: cubic-bezier(0.1, 2.5, 0.55, 1);
+}
