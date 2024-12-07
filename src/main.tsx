@@ -12,10 +12,10 @@ import "@mantine/notifications/styles.css";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <MantineProvider theme={theme}>
-      <Notifications />
+      <Notifications limit={1} />
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </MantineProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

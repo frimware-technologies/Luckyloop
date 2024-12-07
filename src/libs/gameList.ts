@@ -186,34 +186,34 @@ export const gameList = [
 export const options = [
   {
     title: "Single Digit",
-    link: "someLink",
+    link: "single-digit",
   },
   {
     title: "Jodi Digit",
-    link: "someLink",
+    link: "jodi-digit",
   },
   {
     title: "Single Panna",
-    link: "someLink",
+    link: "single-panna",
   },
   {
     title: "Double Panna",
-    link: "someLink",
+    link: "double-panna",
   },
   {
     title: "Triple Panna",
-    link: "someLink",
+    link: "triple-panna",
   },
   {
     title: "Half Sangam",
-    link: "someLink",
+    link: "half-sangam",
   },
   {
     title: "Full Sangam",
-    link: "someLink",
+    link: "full-sangam",
   },
   {
     title: "SPDPTP",
-    link: "someLink",
+    link: "spdptp",
   },
 ];
