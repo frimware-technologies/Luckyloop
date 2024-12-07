@@ -113,7 +113,7 @@ export function SingleDigit() {
           justify={"center"}
         >
           <Clock />
-          <DigitalClock color="black"></DigitalClock>
+          <DigitalClock fontSize="14" color="black"></DigitalClock>
         </Flex>
         <Grid py={18} style={{ flexWrap: "wrap" }}>
           <Grid.Col span={3}>
