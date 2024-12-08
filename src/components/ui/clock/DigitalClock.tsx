@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { Text } from "@mantine/core";
-export function DigitalClock({ color }: { color: string }) {
+export function DigitalClock({
+  color,
+  fontSize,
+}: {
+  color: string;
+  fontSize: string;
+}) {
   const [time, setTime] = useState(getFormattedTime());
   function getFormattedTime() {
     const now = new Date();
@@ -29,7 +35,7 @@ export function DigitalClock({ color }: { color: string }) {
   }, []);
 
   return (
-    <Text c={color} fw={400}>
+    <Text c={color} fz={fontSize} fw={400}>
       {time}
     </Text>
   );
