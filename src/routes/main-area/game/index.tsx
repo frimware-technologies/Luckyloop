@@ -8,7 +8,6 @@ import {
   Image,
   Text,
 } from "@mantine/core";
-import { DigitalClock } from "@/components/ui/clock/DigitalClock";
 
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router";
@@ -17,6 +16,8 @@ import shield from "@/assets/images/GameCard/shield.png";
 import { options } from "@/libs/gameList";
 import { gameList } from "@/libs/gameList";
 import { notifications } from "@mantine/notifications";
+import { DigitalClock } from "@/components/ui/clock/DigitalClock";
+import Clock from "@/components/ui/clock/Clock";
 
 export const Game = () => {
   const { game } = useParams();
@@ -25,45 +26,62 @@ export const Game = () => {
 
   return (
     <Flex px={18} py={18} direction={"column"}>
+      <Flex
+        bg={"cyan"}
+        h={64}
+        px={18}
+        align={"center"}
+        style={{ borderTopLeftRadius: 56, borderBottomRightRadius: 56 }}
+      >
+        <Text fw={600} fz={"md"} c={"white"}>
+          {game?.split("-").join(" ").toUpperCase()}
+        </Text>
+        <Flex align={"center"} columnGap={4} ml={"auto"}>
+          <Clock></Clock>
+          <DigitalClock fontSize="14" color="white"></DigitalClock>
+        </Flex>
+      </Flex>
+
       <Grid py={18} align={"end"}>
         {options.map((option, index) => (
           <Grid.Col key={index} span={4}>
             <Anchor
               w={"30%"}
               onClick={() => {
-                // if (index === 1) {
-                //   gameList.forEach((eachGame) => {
-                //     if (
-                //       eachGame.title ===
-                //       game?.split("-").join(" ").toUpperCase()
-                //     ) {
-                //       const now = new Date();
-                //       const [endHours, endMins, endPeriod] =
-                //         eachGame.open
-                //           .match(/(\d+):(\d+)\s*(AM|PM)/)
-                //           ?.slice(1) ?? [];
-                //       const end = new Date();
-                //       end.setHours(
-                //         endPeriod === "AM"
-                //           ? parseInt(endHours) % 12
-                //           : (parseInt(endHours) % 12) + 12,
-                //         parseInt(endMins),
-                //         0,
-                //         0,
-                //       );
-                //       if (now > end) {
-                //         navigate(`/games/${game}/${option.link}`);
-                //         return;
-                //       }
-                //       notifications.show({
-                //         color: "red",
-                //         message: "This game is available before market open!",
-                //       });
-                //       return;
-                //     }
-                //   });
-                // }
-                navigate(`/games/${game}/${option.link}`);
+                if (index === 1 || index === 5 || index === 6) {
+                  gameList.forEach((eachGame) => {
+                    if (
+                      eachGame.title ===
+                      game?.split("-").join(" ").toUpperCase()
+                    ) {
+                      const now = new Date();
+                      const [openHours, openMins, openPeriod] =
+                        eachGame.open
+                          .match(/(\d+):(\d+)\s*(AM|PM)/)
+                          ?.slice(1) ?? [];
+                      const start = new Date();
+                      start.setHours(
+                        openPeriod === "AM"
+                          ? parseInt(openHours) % 12
+                          : (parseInt(openHours) % 12) + 12,
+                        parseInt(openMins),
+                        0,
+                        0,
+                      );
+                      if (now < start) {
+                        navigate(`/games/${game}/${option.link}`);
+                      } else {
+                        notifications.show({
+                          color: "red",
+                          message: "This game is available before market open!",
+                        });
+                      }
+                      return;
+                    }
+                  });
+                } else {
+                  navigate(`/games/${game}/${option.link}`);
+                }
               }}
             >
               <Container key={index} p={0} m={0} pos={"relative"}>
