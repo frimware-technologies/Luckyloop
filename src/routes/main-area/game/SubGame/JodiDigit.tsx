@@ -11,21 +11,33 @@ import {
 } from "@mantine/core";
 import { useParams } from "react-router";
 import { SubGameHeader } from "@/components/ui/SubGameHeader";
+import { z } from "zod";
+import { useForm, zodResolver } from "@mantine/form";
+
 import Clock from "@/components/ui/clock/Clock";
 import { DigitalClock } from "@/components/ui/clock/DigitalClock";
 import { useState } from "react";
-import { notifications } from "@mantine/notifications";
 
-interface formData {
-  jodiDigit: string;
-  points: string;
-}
+const formDataSchema = z.object({
+  jodiDigit: z.string().min(2, { message: "Please enter 2 digit" }),
+  points: z.coerce.number().gt(9, { message: "Minimum bet amount is 10." }),
+});
 
 export function JodiDigit() {
+  const form = useForm({
+    validate: zodResolver(formDataSchema),
+    initialValues: {
+      jodiDigit: "",
+      points: "",
+    },
+  });
+
   const { game } = useParams();
   const [options, setOptions] = useState<string[]>([]);
 
-  const [finalData, setFinalData] = useState<formData[] | []>([]);
+  const [finalData, setFinalData] = useState<
+    { jodiDigit: string; points: string | number }[] | []
+  >([]);
   // Handle changes in the input field
   const handleInputChange = (inputValue: string) => {
     if (!/^\d?$/.test(inputValue)) return; // Allow only single digits or empty input
@@ -42,22 +54,12 @@ export function JodiDigit() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const jodiDigit = formData.get("jodi-digit");
-    const points = formData.get("points");
-    if (!jodiDigit || !points) {
-      notifications.show({
-        message: "! Enter Points and jodi digit",
-      });
-      return;
-    }
-
+  const handleSubmit = (value: { jodiDigit: string; points: string }) => {
     setFinalData([
       ...finalData,
-      { jodiDigit: `${jodiDigit}`, points: `${points}` },
+      { jodiDigit: value.jodiDigit, points: value.points },
     ]);
+    form.reset();
     return;
   };
 
@@ -76,11 +78,17 @@ export function JodiDigit() {
         <DigitalClock fontSize="16" color="black"></DigitalClock>
       </Flex>
       <Card withBorder bd={"2px solid black"}>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={form.onSubmit((value) => {
+            handleSubmit(value);
+          })}
+        >
           <Stack p={12}>
             <Autocomplete
               inputMode="numeric"
-              maxLength={2}
+              key={form.key("jodiDigit")}
+              {...form.getInputProps("jodiDigit")}
+              minLength={2}
               name="jodi-digit"
               label="Jodi Digit"
               placeholder="Select Jodi Number"
@@ -93,7 +101,10 @@ export function JodiDigit() {
             <TextInput
               size="md"
               name="points"
+              key={form.key("points")}
+              {...form.getInputProps("points")}
               label="Points"
+              inputMode="numeric"
               maxLength={6}
               placeholder="Enter Points"
               mb={14}
@@ -133,7 +144,6 @@ export function JodiDigit() {
               bd={"solid 1px black"}
               px={2}
               fz={12}
-              w={18}
               ta={"center"}
               style={{ borderRadius: 4 }}
             >
@@ -173,7 +183,10 @@ export function JodiDigit() {
               {finalData.length}
             </Text>
             <Text fz={12} ta="center">
-              {finalData.reduce((sum, item) => sum + parseInt(item.points), 0)}
+              {finalData.reduce(
+                (sum, item) => sum + parseInt(String(item.points)),
+                0,
+              )}
             </Text>
             <Text fz={12} ta="center">
               5{/*TODO: Here we have to update balance */}
