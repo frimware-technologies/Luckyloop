@@ -22,15 +22,19 @@ import { useForm, zodResolver } from "@mantine/form";
 
 const FormSchema = z.object({
   marketStatus: z.enum(["open", "close"], {
-    message: "Choose a market duration",
+    message: "Choose a market session",
   }),
   singlePanna: z.string().refine((val) => singlePanna.includes(val), {
     message: "Panna numbers is incorrect",
   }),
-  points: z.coerce
-    .number()
-    .gt(9, { message: "Minimum bet amount is 10." })
-    .lt(99999, { message: "Maximum bet amount is 99999." }),
+  points: z
+    .union([
+      z.coerce.number().gt(9).lt(99999),
+      z.literal("").transform(() => 0),
+    ])
+    .refine((val) => val > 0, {
+      message: "Minimum bet amount is 10",
+    }),
 });
 
 type FormData = z.infer<typeof FormSchema>;
@@ -42,9 +46,9 @@ export function SinglePanna() {
 
   const form = useForm<FormData>({
     initialValues: {
-      marketStatus: "open",
+      marketStatus: "" as "open" | "close",
       singlePanna: "",
-      points: 0,
+      points: "" as unknown as number,
     },
     validate: zodResolver(FormSchema),
   });
@@ -182,11 +186,10 @@ export function SinglePanna() {
               bd={"solid 1px black"}
               px={2}
               fz={12}
-              w={18}
               ta={"center"}
               style={{ borderRadius: 4 }}
             >
-              {item.points}
+              {item.singlePanna}
             </Text>
             <Text
               bd={"solid 1px black"}
