@@ -12,15 +12,17 @@ import {
   home_ic,
   win_ic,
 } from "../../assets/icons";
+import { LogoutModel } from "../home/LogoutModel";
 import { GameRate } from "../DrawerContent/GameRate";
 import { useNavigate } from "react-router";
-import { Flex, Button, Drawer, Text, Avatar } from "@mantine/core";
+import { Flex, Button, Drawer, Text, Avatar, Modal } from "@mantine/core";
 import { useState } from "react";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const [OpenGameRate, setOpenGameRate] = useState(false);
   const [OpenHowToPlay, setOpenHowToPlay] = useState(false);
+  const [openlogoutModel, setOpenLogoutModel] = useState(false);
 
   const buttons = [
     { label: "Home", icon: home_ic },
@@ -66,7 +68,13 @@ export const Menu = () => {
     },
     { label: "Settings", icon: setting_ic },
     { label: "Share Application", icon: share_ic },
-    { label: "Logout", icon: logout_ic },
+    {
+      label: "Logout",
+      icon: logout_ic,
+      onClick: () => {
+        setOpenLogoutModel(true);
+      },
+    },
   ];
   return (
     //TODO: WE HAVE TO MODIFY HREF LINK IN FUTURE
@@ -118,6 +126,14 @@ export const Menu = () => {
       >
         {" The real name of this game is Satta Matka"}
       </Drawer>
+      <Modal
+        opened={openlogoutModel}
+        onClose={() => setOpenLogoutModel(false)}
+        centered
+        withCloseButton={false}
+      >
+        <LogoutModel setOpenLogoutModel={setOpenLogoutModel}></LogoutModel>
+      </Modal>
     </Flex>
   );
 };
