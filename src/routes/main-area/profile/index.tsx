@@ -16,18 +16,18 @@ export const Profile = () => {
         pos={"relative"}
         bg={"cyan.3"}
       >
-        <img
+        <Image
           src={wallet}
-          width={"64px"}
-          height={"64px"}
+          w={"64px"}
+          h={"64px"}
+          pos={"absolute"}
+          top={"-32px"}
+          left={"50%"}
           style={{
-            position: "absolute",
-            top: "-32px",
-            left: "50%",
-            translate: "-32px 0px",
-            zIndex: 10000,
+            transform: "translate(-32px, 0px)",
           }}
-        ></img>
+        ></Image>
+
         <TextInput label="User Name" leftSection={username_ic}></TextInput>
         <TextInput label="Email Id" leftSection={lock_ic}></TextInput>
 
