@@ -8,6 +8,16 @@ import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { theme } from "./mantine.config";
 import "@mantine/notifications/styles.css";
+import { initializeStore } from "./store";
+
+async function initApp() {
+  try {
+    await initializeStore();
+    console.log("Store initialized");
+  } catch (error) {
+    console.error("Error initializing store:", error);
+  }
+}
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -19,3 +29,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </MantineProvider>
   </React.StrictMode>,
 );
+
+initApp();
