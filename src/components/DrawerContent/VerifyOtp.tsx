@@ -4,6 +4,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useAuth } from "@/App";
+import { setStoreValue } from "@/store";
 
 const otpSchema = z.object({
   otp: z.string().min(4, { message: "Enter a 4 digit OTP" }),
@@ -44,6 +45,8 @@ export function VerifyOtp({ number }: { number: string }) {
     console.log(data);
     localStorage.setItem("phone", number);
     localStorage.setItem("token", `${data.token}`);
+    await setStoreValue("balance", `${data.balance}`);
+
     setIsLoading(false);
     setIsAuthenticated(true);
   }

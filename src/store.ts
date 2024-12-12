@@ -11,7 +11,7 @@ export async function initializeStore(): Promise<void> {
     const hasInitialized = await store.get<boolean>("initialized");
     if (!hasInitialized) {
       await store.set("initialized", true); // Mark store as initialized
-      await store.set("settings", { notifications: true }); // Default settings
+      await store.set("settings", { notification: true }); // Default settings
       await store.save();
     }
   }

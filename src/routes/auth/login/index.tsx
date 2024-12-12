@@ -13,6 +13,7 @@ import { SupportCard } from "../../../components/ui/SupportCard";
 import { lock_ic, call_ic } from "../../../assets/icons";
 import { useState } from "react";
 import { useAuth } from "@/App";
+import { setStoreValue } from "@/store";
 
 const loginSchema = z.object({
   mobileNum: z
@@ -56,7 +57,8 @@ export const Login = () => {
       },
       body: JSON.stringify({ phone: value.mobileNum, mpin: value.mpin }),
     });
-    const data: { error?: string; token?: string } = await response.json();
+    const data: { error?: string; token?: string; balance: number } =
+      await response.json();
     if (!response.ok) {
       setErrMessage(`${data.error}`);
       setIsLoading(false);
@@ -66,6 +68,7 @@ export const Login = () => {
     console.log(data);
     localStorage.setItem("phone", value.mobileNum);
     localStorage.setItem("token", `${data.token}`);
+    setStoreValue("balance", `${data.balance}`);
     //redirect to home page
 
     setIsAuthenticated(true);

@@ -15,6 +15,7 @@ import { useForm, zodResolver } from "@mantine/form";
 import { nextFetch } from "@/libs/nextFetch";
 import { useAuth } from "@/App";
 import { useState } from "react";
+import { setStoreValue } from "@/store";
 
 const mpinSchema = z.object({
   mpin: z.string().min(4, { message: "Enter 4 digit MPIN" }).max(4),
@@ -41,12 +42,13 @@ export function Mpin() {
       },
       body: JSON.stringify({ phone: phone, mpin: value.mpin }),
     });
-    const data: { error?: string } = await response.json();
+    const data: { error?: string; balance: number } = await response.json();
     if (!response.ok) {
       setErrMessage(`${data.error}`);
       return setLoading(false);
     }
     setIsAuthenticated(true);
+    await setStoreValue("balance", data.balance);
     return setLoading(false);
   };
 
