@@ -1,13 +1,22 @@
 import { Text, Flex, Card, Button } from "@mantine/core";
+import { useAuth } from "@/App";
 
 export const LogoutModel = ({
   setOpenLogoutModel,
 }: {
   setOpenLogoutModel: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { setIsAuthenticated } = useAuth();
   return (
-    <Flex direction="column" py={14}>
-      <Card bg={"cyan"} c={"white"} fz={"xl"} ta={"center"}>
+    <Flex p={0} pb={22} direction="column">
+      <Card
+        bg={"cyan"}
+        w={"100%"}
+        c={"white"}
+        fz={"xl"}
+        ta={"center"}
+        style={{ width: "100%" }}
+      >
         Logout
       </Card>
       <Text my={14} ta={"center"}>
@@ -17,7 +26,7 @@ export const LogoutModel = ({
         <Button
           variant="outline"
           h={32}
-          size="xl"
+          size="md"
           onClick={() => setOpenLogoutModel((prev) => !prev)}
         >
           No
@@ -25,8 +34,11 @@ export const LogoutModel = ({
         <Button
           variant=""
           h={32}
-          size="xl"
-          onClick={() => localStorage.clear()}
+          size="md"
+          onClick={() => {
+            setIsAuthenticated(false);
+            localStorage.clear();
+          }}
         >
           Yes
         </Button>
