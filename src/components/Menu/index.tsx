@@ -17,12 +17,14 @@ import { GameRate } from "../DrawerContent/GameRate";
 import { useNavigate } from "react-router";
 import { Flex, Button, Drawer, Text, Avatar, Modal } from "@mantine/core";
 import { useState } from "react";
+import { Setting } from "../home/Setting";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const [OpenGameRate, setOpenGameRate] = useState(false);
   const [OpenHowToPlay, setOpenHowToPlay] = useState(false);
   const [openlogoutModel, setOpenLogoutModel] = useState(false);
+  const [openSetting, setOpenSetting] = useState(false);
 
   const buttons = [
     { label: "Home", icon: home_ic },
@@ -64,9 +66,13 @@ export const Menu = () => {
     {
       label: "Notification",
       icon: notification_ic,
-      onclick: () => navigate("/notification"),
+      onClick: () => navigate("/notification"),
     },
-    { label: "Settings", icon: setting_ic },
+    {
+      label: "Settings",
+      icon: setting_ic,
+      onClick: () => setOpenSetting(true),
+    },
     { label: "Share Application", icon: share_ic },
     {
       label: "Logout",
@@ -131,8 +137,19 @@ export const Menu = () => {
         onClose={() => setOpenLogoutModel(false)}
         centered
         withCloseButton={false}
+        padding={0}
       >
         <LogoutModel setOpenLogoutModel={setOpenLogoutModel}></LogoutModel>
+      </Modal>
+      <Modal
+        opened={openSetting}
+        onClose={() => setOpenSetting(false)}
+        centered
+        padding={0}
+        w={"20%"}
+        withCloseButton={false}
+      >
+        <Setting></Setting>
       </Modal>
     </Flex>
   );
