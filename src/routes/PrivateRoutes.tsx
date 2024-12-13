@@ -11,14 +11,20 @@ import { TriplePanna } from "./main-area/game/SubGame/TriplePanna";
 import { HalfSangam } from "./main-area/game/SubGame/HalfSangam";
 import { FullSangam } from "./main-area/game/SubGame/FullSangam";
 import { Spdptp } from "./main-area/game/SubGame/Spdptp";
+import Notification from "./main-area/notification";
+import { WithdrawMoney } from "./main-area/withdraw-money";
+import { BetHistory } from "./main-area/bet-history";
 
 function AuthenticatedRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/notification" element={<Notification />} />
+      <Route path="/withdraw-money" element={<WithdrawMoney />} />
       <Route path="/add-money" element={<AddMoney />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/bid-history" element={<BetHistory />} />
       <Route path="/games/:game" element={<Game />} />
       <Route path="/games/:game/single-digit" element={<SingleDigit />} />
       <Route path="/games/:game/jodi-digit" element={<JodiDigit />} />
