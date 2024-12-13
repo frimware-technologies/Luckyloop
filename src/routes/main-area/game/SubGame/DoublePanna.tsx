@@ -24,7 +24,7 @@ const FormSchema = z.object({
   marketStatus: z.enum(["open", "close"], {
     message: "Choose a market duration",
   }),
-  doublePanna: z.string().refine((val) => doublePanna.includes(val), {
+  panna: z.string().refine((val) => doublePanna.includes(val), {
     message: "Panna numbers is incorrect",
   }),
   points: z
@@ -51,7 +51,7 @@ export function DoublePanna() {
   const form = useForm<FormData>({
     initialValues: {
       marketStatus: "" as "open" | "close",
-      doublePanna: "",
+      panna: "",
       points: "" as unknown as number,
     },
     validate: zodResolver(FormSchema),
@@ -128,8 +128,8 @@ export function DoublePanna() {
           <Stack p={12}>
             <Autocomplete
               inputMode="numeric"
-              key={form.key("doublePanna")}
-              {...form.getInputProps("doublePanna")}
+              key={form.key("panna")}
+              {...form.getInputProps("panna")}
               maxLength={3}
               name="digit"
               label="Double Panna"
@@ -194,7 +194,7 @@ export function DoublePanna() {
               ta={"center"}
               style={{ borderRadius: 4 }}
             >
-              {item.doublePanna}
+              {item.panna}
             </Text>
             <Text
               bd={"solid 1px black"}

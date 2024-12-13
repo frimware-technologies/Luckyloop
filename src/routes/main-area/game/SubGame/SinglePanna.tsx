@@ -24,7 +24,7 @@ const FormSchema = z.object({
   marketStatus: z.enum(["open", "close"], {
     message: "Choose a market session",
   }),
-  singlePanna: z.string().refine((val) => singlePanna.includes(val), {
+  panna: z.string().refine((val) => singlePanna.includes(val), {
     message: "Panna numbers is incorrect",
   }),
   points: z
@@ -47,7 +47,7 @@ export function SinglePanna() {
   const form = useForm<FormData>({
     initialValues: {
       marketStatus: "" as "open" | "close",
-      singlePanna: "",
+      panna: "",
       points: "" as unknown as number,
     },
     validate: zodResolver(FormSchema),
@@ -123,8 +123,8 @@ export function SinglePanna() {
           <Stack p={12}>
             <Autocomplete
               inputMode="numeric"
-              key={form.key("singlePanna")}
-              {...form.getInputProps("singlePanna")}
+              key={form.key("panna")}
+              {...form.getInputProps("panna")}
               minLength={2}
               name="digit"
               label="Single Panna"
@@ -189,7 +189,7 @@ export function SinglePanna() {
               ta={"center"}
               style={{ borderRadius: 4 }}
             >
-              {item.singlePanna}
+              {item.panna}
             </Text>
             <Text
               bd={"solid 1px black"}

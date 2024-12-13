@@ -24,7 +24,7 @@ const formSchema = z.object({
   marketStatus: z.enum(["open", "close"], {
     message: "Select a market session",
   }),
-  triplePanna: z.string().refine((val) => triplePanna.includes(val), {
+  panna: z.string().refine((val) => triplePanna.includes(val), {
     message: "Enter a valid Panna",
   }),
   points: z.coerce
@@ -43,7 +43,7 @@ export function TriplePanna() {
     validate: zodResolver(formSchema),
     initialValues: {
       marketStatus: "" as "open" | "close",
-      triplePanna: "",
+      panna: "",
       points: "" as unknown as number,
     },
   });
@@ -119,8 +119,8 @@ export function TriplePanna() {
           <Stack p={12}>
             <Autocomplete
               inputMode="numeric"
-              key={form.key("triplePanna")}
-              {...form.getInputProps("triplePanna")}
+              key={form.key("pa")}
+              {...form.getInputProps("panna")}
               maxLength={3}
               name="digit"
               label="Triple Panna"
@@ -185,7 +185,7 @@ export function TriplePanna() {
               ta={"center"}
               style={{ borderRadius: 4 }}
             >
-              {item.triplePanna}
+              {item.panna}
             </Text>
             <Text
               bd={"solid 1px black"}
