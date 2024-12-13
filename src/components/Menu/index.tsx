@@ -26,6 +26,8 @@ export const Menu = () => {
   const [openlogoutModel, setOpenLogoutModel] = useState(false);
   const [openSetting, setOpenSetting] = useState(false);
 
+  const userPhoneNum = localStorage.getItem("phone");
+
   const buttons = [
     { label: "Home", icon: home_ic },
     {
@@ -85,8 +87,8 @@ export const Menu = () => {
   return (
     //TODO: WE HAVE TO MODIFY HREF LINK IN FUTURE
     <Flex w={"100%"} direction={"column"} gap={12} bd={"black"}>
-      <Flex h={86} gap={4} align={"center"} bg={"cyan"}>
-        <a href="/profile">
+      <a style={{ textDecoration: "none" }} href="/profile">
+        <Flex h={86} gap={4} align={"center"} bg={"cyan"}>
           <Avatar
             variant="transparent"
             color="white"
@@ -94,16 +96,16 @@ export const Menu = () => {
             size="xl"
             src=""
           />
-        </a>
-        <Flex direction={"column"}>
-          <Text c="white" size="sm">
-            Anuj
-          </Text>
-          <Text c="white" size="sm">
-            8503095408
-          </Text>
+          <Flex direction={"column"}>
+            <Text c="white" size="sm">
+              Anuj
+            </Text>
+            <Text c="white" size="sm">
+              {userPhoneNum}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
+      </a>
 
       {buttons.map((button, index) => (
         <Button

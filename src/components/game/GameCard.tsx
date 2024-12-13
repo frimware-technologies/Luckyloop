@@ -35,7 +35,7 @@ export const GameCard = ({
   );
 
   const handleCardClick = () => {
-    if (now > end) {
+    if (now >= end) {
       notifications.show({
         autoClose: 1000,
         title: "",
