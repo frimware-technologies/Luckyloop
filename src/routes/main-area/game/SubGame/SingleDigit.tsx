@@ -16,6 +16,7 @@ import { SubGameHeader } from "@/components/ui/SubGameHeader";
 import { useState } from "react";
 import { gameList } from "@/libs/gameList";
 import { notifications } from "@mantine/notifications";
+import { nextFetch } from "@/libs/nextFetch";
 
 interface formData {
   number: string;
@@ -26,6 +27,7 @@ interface formData {
 export function SingleDigit() {
   const { game } = useParams();
   const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [loading, setLoading] = useState(false);
   const [finalData, setFinalData] = useState<formData[] | []>([]);
   const [selectedNumber, setSelectedNumber] = useState("");
   const [selectedMarketStatus, setMarketStatus] = useState("");
@@ -73,6 +75,35 @@ export function SingleDigit() {
     setSelectedNumber("");
     setMarketStatus("");
     return;
+  };
+
+  const handleConfirmation = async () => {
+    setLoading(true);
+
+    if (finalData.length === 0) {
+      setLoading(false);
+      return;
+    }
+    const response = await nextFetch(`/games/${game}/single-digit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(finalData),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      setLoading(false);
+
+      notifications.show({
+        message: `${data.error}`,
+      });
+    }
+
+    setLoading(false);
+    notifications.show({
+      message: `${data.error}`,
+    });
   };
 
   return (
@@ -242,7 +273,9 @@ export function SingleDigit() {
             </Card>
           </Grid.Col>
         </Grid>
-        <Button mt={"auto"}>Submit</Button>
+        <Button mt={"auto"} loading={loading} onClick={handleConfirmation}>
+          Confirm
+        </Button>
       </form>
     </Flex>
   );

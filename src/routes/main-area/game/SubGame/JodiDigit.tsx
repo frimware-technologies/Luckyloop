@@ -17,6 +17,8 @@ import { useForm, zodResolver } from "@mantine/form";
 import Clock from "@/components/ui/clock/Clock";
 import { DigitalClock } from "@/components/ui/clock/DigitalClock";
 import { useState } from "react";
+import { nextFetch } from "@/libs/nextFetch";
+import { notifications } from "@mantine/notifications";
 
 const formDataSchema = z.object({
   jodiDigit: z.string().min(2, { message: "Please enter 2 digit" }),
@@ -24,6 +26,7 @@ const formDataSchema = z.object({
 });
 
 export function JodiDigit() {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     validate: zodResolver(formDataSchema),
     initialValues: {
@@ -61,6 +64,39 @@ export function JodiDigit() {
     ]);
     form.reset();
     return;
+  };
+
+  const handleConfirmation = async () => {
+    setLoading(true);
+
+    if (finalData.length === 0) {
+      setLoading(false);
+      return notifications.show({
+        message: "Please make a bet first",
+        color: "red",
+      });
+    }
+    const response = await nextFetch(`/games/${game}/jodi-digit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(finalData),
+    });
+    const data: { success?: boolean; message?: string; error?: string } =
+      await response.json();
+    if (!response.ok) {
+      setLoading(false);
+      return notifications.show({
+        message: data.error,
+        color: "red",
+      });
+    } else {
+      setLoading(false);
+      return notifications.show({
+        message: data.message,
+      });
+    }
   };
 
   return (
@@ -194,7 +230,9 @@ export function JodiDigit() {
           </Group>
         </Paper>
       </Card>
-      <Button fullWidth>Confirm</Button>
+      <Button fullWidth loading={loading} onClick={handleConfirmation}>
+        Confirm
+      </Button>
     </Flex>
   );
 }
