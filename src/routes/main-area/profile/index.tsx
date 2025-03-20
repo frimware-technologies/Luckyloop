@@ -1,8 +1,14 @@
 import { Button, Card, TextInput, Image } from "@mantine/core";
-import { lock_ic, username_ic } from "../../../assets/icons";
-import { SharedHeader } from "../../../components/ui/SharedHeader";
-import wallet from "../../../assets/images/quick-feature/add-wallet.png";
+import { lock_ic, username_ic } from "@/assets/icons";
+import { SharedHeader } from "@/components/ui/SharedHeader";
+import wallet from "@/assets/images/quick-feature/add-wallet.png";
+import { useEffect, useState } from "react";
 export const Profile = () => {
+  const [userPhone, setPhone] = useState<string | null>("");
+  useEffect(() => {
+    setPhone(localStorage.getItem("item"));
+  }, []);
+
   return (
     <>
       <SharedHeader title={"Profile"} />
@@ -33,6 +39,7 @@ export const Profile = () => {
 
         <TextInput
           label="Mobile Number"
+          value={`${userPhone}`}
           leftSection={username_ic}
           disabled
         ></TextInput>

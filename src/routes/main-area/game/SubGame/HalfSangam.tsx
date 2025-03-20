@@ -219,7 +219,7 @@ export function HalfSangam() {
         </Flex>
       </Card>
       <Card bg={"cyan.1"} shadow="xl" my={12}>
-        <Flex justify="space-between" align={"center"} columnGap={10}>
+        <Flex mb={12} justify="space-between" align={"center"} columnGap={10}>
           {["Close Digit", "Open Pana", "Enter points"].map((item, index) => (
             <Text
               key={index}
@@ -239,41 +239,37 @@ export function HalfSangam() {
             miw={50}
             onClick={() => setFinalData([])}
           >
-            Delelte All
+            Delete All
           </Text>
         </Flex>
 
-        {finalData.map((item, index) => (
-          <Flex key={index} my={8} justify={"space-between"}>
-            <Text
-              bd={"solid 1px black"}
-              px={2}
-              fz={12}
-              ta={"center"}
-              style={{ borderRadius: 4 }}
-            >
-              {item.closeDigit}
-            </Text>
-            <Text
-              bd={"solid 1px black"}
-              px={2}
-              fz={12}
-              style={{ borderRadius: 4 }}
-            >
-              {item.points}
-            </Text>
-            <Button
-              size="compact-xs"
-              h={24}
-              color="red"
-              onClick={() =>
-                setFinalData(finalData.filter((_, i) => i !== index))
-              }
-            >
-              Delete
-            </Button>
+        {finalData.length > 0 && (
+          <Flex direction="column" gap={8}>
+            {finalData.map((item, index) => (
+              <Paper key={index} p="sm" withBorder>
+                <Flex justify="space-between" align="center">
+                  <Text fz={12}>
+                    {item.selectedOption === "open-close"
+                      ? `Open digit: ${item.openDigit}, Close Panna: ${item.closePanna}`
+                      : `Close digit: ${item.closeDigit}, Open Panna: ${item.openPanna}`}
+                  </Text>
+                  <Text fz={12}>Points: {item.points}</Text>
+                  <Button
+                    size="compact-xs"
+                    h={24}
+                    ml={4}
+                    color="red"
+                    onClick={() =>
+                      setFinalData(finalData.filter((_, i) => i !== index))
+                    }
+                  >
+                    Delete
+                  </Button>
+                </Flex>
+              </Paper>
+            ))}
           </Flex>
-        ))}
+        )}
         <Paper my={18} py={14}>
           <Group grow>
             {["Numbers", "Points", "LeftPoints"].map((text, index) => (
@@ -299,6 +295,17 @@ export function HalfSangam() {
           </Group>
         </Paper>
       </Card>
+      <Button
+        // loading={loading}
+        pos={"fixed"}
+        bottom={0}
+        left={0}
+        right={0}
+        m={"18"}
+        // onClick={handleConfirmation}
+      >
+        Confirm
+      </Button>
     </Flex>
   );
 }

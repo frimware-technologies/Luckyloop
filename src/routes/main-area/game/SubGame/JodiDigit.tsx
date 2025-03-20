@@ -230,7 +230,16 @@ export function JodiDigit() {
           </Group>
         </Paper>
       </Card>
-      <Button fullWidth loading={loading} onClick={handleConfirmation}>
+
+      <Button
+        loading={loading}
+        pos={"fixed"}
+        bottom={0}
+        left={0}
+        right={0}
+        m={"18"}
+        onClick={handleConfirmation}
+      >
         Confirm
       </Button>
     </Flex>
